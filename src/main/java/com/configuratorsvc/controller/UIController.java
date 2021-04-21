@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.configuratorsvc.service.FileuploadService;
@@ -46,11 +45,8 @@ public class UIController {
     }
     
     @ExceptionHandler(Exception.class)
-    public ModelAndView handleException(Exception exception, RedirectAttributes redirectAttributes) {
-
-        ModelAndView mav = new ModelAndView();
-        mav.addObject("message", exception.getMessage());
-        mav.setViewName("error");
-        return mav;
+    public String handleException(Exception exception, RedirectAttributes redirectAttributes) {
+    	redirectAttributes.addFlashAttribute("error", exception.getMessage());
+    	return "redirect:/";
     }
 }

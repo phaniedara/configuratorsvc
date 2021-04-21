@@ -11,7 +11,7 @@
     <div class="card card-login mx-auto mt-5">
       <div class="card-header">Login</div>
       <div th:if="${param.error}" class="alert alert-error">
-        Invalid username or password.
+        Invalid username and password.
       </div>
       <div th:if="${param.logout}" class="alert alert-success">
         You have been logged out.
@@ -21,7 +21,7 @@
           <div class="form-group">
             <div class="form-label-group">
               <input type="text" id="inputUser" name="username" class="form-control" placeholder="Username" required="required" autofocus="autofocus">
-              <label for="inputUser">Username</label>
+              <label for="inputEmail">Username</label>
             </div>
           </div>
           <div class="form-group">
