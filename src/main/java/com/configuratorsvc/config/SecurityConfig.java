@@ -2,23 +2,27 @@ package com.configuratorsvc.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("/rest/**");
+	}
+	
+	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-			.anyRequest().fullyAuthenticated()
-			.and()
-			.exceptionHandling().accessDeniedPage("/auth_error")
-			.and()
-			.formLogin().loginPage("/login").failureUrl("/login?error").permitAll()
-			.and()
-			.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/").invalidateHttpSession(true);
+		http
+        .authorizeRequests().antMatchers("/ui**").authenticated()
+        .and()
+        .formLogin().loginPage("/ui/login").defaultSuccessUrl("/ui").failureUrl("/ui/login?error").permitAll()
+        .and()
+        .logout().logoutUrl("/ui").logoutSuccessUrl("/ui").invalidateHttpSession(true);
+
 	}
 }
